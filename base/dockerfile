@@ -4,6 +4,16 @@
 #RUN : Shell Script 또는 명령을 실행
 #USER : 명령 실행할 사용자 권한 지정
 #WORKDIR : "RUN", "CMD", "ENTRYPOINT" 명령이 실행될 작업 디렉터리
+
+############################# M1 apple silicon #####################
+# /lib64/ld-linux-x86-64.so.2: No such file or directory error 대처법
+# terminal 에서 dockerfile 이 있는 dic로 이동 후
+# 아래 코드 입력 하면 강제로 linux/amd64 로 build 시켜 m1 오류를 우회할 수 있다.
+# docker build -t --plaform linux/amd64 <image name> .
+
+################################################################
+
+
 FROM ubuntu:20.04
 SHELL ["/bin/bash", "-c"]
 # 패키지 관리자 업데이트

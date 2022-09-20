@@ -57,3 +57,4 @@ if __name__ == "__main__":
         # <bound method CoronaVaccineExtractor.extract_data of <class 'datajob.etl.extract.corona_vaccine.CoronaVaccineExtractor'>>
     else:
         work = works[args[1]][args[2]]
+        work()

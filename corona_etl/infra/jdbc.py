@@ -1,7 +1,7 @@
 """
 JDBC Connect Info
 """
-
+from infra.spark_session import get_spark_session
 from enum import Enum
 
 class DataWareHouse(Enum):
@@ -25,8 +25,11 @@ def save_data(config, dataframe, table_name):
     , mode='append'
     , properties=config.PROPS.value)
 
-def update_data(config, dataframe, table_name):
+def overwrite_data(config, dataframe, table_name):
     dataframe.write.jdbc(url=config.URL.value
     , table=table_name
     , mode='overwrite'
     , properties=config.PROPS.value)
+
+def find_data(config, table_name):
+    return get_spark_session().read.jdbc(url=config.URL.value, table=table_name, properties=config.PROPS.value)

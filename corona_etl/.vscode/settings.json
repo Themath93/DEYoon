@@ -1,11 +1,12 @@
 {
+    "python.defaultInterpreterPath":"/usr/bin/python3",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.pydocstyleEnabled": false,
     "python.linting.pylintArgs": [
         "--init-hook",
-	    "--rcfile",
+        "import sys; sys.path.append('/home/big/study/corona_etl')",
+        "--rcfile",
         "pylint.config",
-        "--disable",
-        "missing-docstring",
-        "import sys; sys.path.append('/home/big/study/CORONA_ETL')"
-    ]
-
+    ],
 }

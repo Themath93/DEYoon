@@ -5,12 +5,12 @@ from pyspark.sql import Row
 
 
 class CoronaVaccineTransformer:
-    file_name = '/corona_data/vaccine/corona_vaccine_' + cal_std_day(1) + '.json'
-    vaccine = get_spark_session().read.json(file_name, multiLine=True)
 
     @classmethod
     def transform(cls):
-        data = cls.__generate_rows()
+        file_name = '/corona_data/vaccine/corona_vaccine_' + cal_std_day(1) + '.json'
+        vaccine = get_spark_session().read.json(file_name, multiLine=True)
+        data = cls.__generate_rows(vaccine)
 
         vaccine_data = cls.__stack_dataframe(data)
         
@@ -37,13 +37,13 @@ class CoronaVaccineTransformer:
         return vaccine_data
 
     @classmethod
-    def __generate_rows(cls):
+    def __generate_rows(cls, vaccine):
         data = []
 
         # 파이썬 압축해제 키워드
         # **kwargs => 여러 쌍의 키워드 args 가 넘어오면 받아서 dict로 반환
         # fnc(**dict) => dict에 있는 key-value 값들이 여러쌍의 kwargs 형태로 함수에 전달
-        for r1 in cls.vaccine.select(cls.vaccine.data, cls.vaccine.meta.std_day).toLocalIterator():
+        for r1 in vaccine.select(vaccine.data, vaccine.meta.std_day).toLocalIterator():
             for r2 in r1.data:
                 temp = r2.asDict() # 액션매서드 row객체를 dict로 반환해주는 함수 asDIct()
                 temp['std_day'] = r1['meta.std_day'] # meta데이터에있는 날짜값 std_day는 키와 벨류를 지정해서 dict에 포함시켜줌

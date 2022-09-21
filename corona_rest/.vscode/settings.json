@@ -1,0 +1,9 @@
+{"python.linting.pylintArgs": [
+    "--init-hook",
+    "import sys; sys.path.append('/home/big/study/corona_rest')",
+    "--rcfile",
+    "pylint.config", "--disable", "missing-docstring",
+    ],
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
+}

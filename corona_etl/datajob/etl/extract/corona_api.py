@@ -32,7 +32,8 @@ class CoronaApiExtractor:
             except Exception as e:
                 log_dict = cls.__create_log_dict(params)
                 cls.__dump_log(log_dict, e)
-
+                raise e
+                #로그는 로그대로 찍고 예외를 발생시킨다.#
     @classmethod
     def __upload_to_hdfs(cls, file_name, res):
         get_client().write(cls.FILE_DIR+file_name, res, encoding='utf-8', overwrite=True)

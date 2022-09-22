@@ -66,6 +66,6 @@ if __name__ == "__main__":
         raise Exception("두번째 전달인자가 이상함 >> " +str(works[args[1]].keys()))
         # print(work)
         # <bound method CoronaVaccineExtractor.extract_data of <class 'datajob.etl.extract.corona_vaccine.CoronaVaccineExtractor'>>
-    else :
-        work = works[args[1]][args[2]]
-        work()
+    
+    work = works[args[1]][args[2]]
+    work()

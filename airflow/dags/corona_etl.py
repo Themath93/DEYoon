@@ -1,4 +1,3 @@
-
 from datetime import datetime, timedelta
 from textwrap import dedent
 
@@ -8,7 +7,7 @@ from airflow import DAG
 # Operators; we need this to operate!
 from airflow.operators.bash import BashOperator
 with DAG(
-    'corona_etl', 
+    'corona_etl',
     # These args will get passed on to each operator
     # You can override them on a per-task basis during operator initialization
     default_args={
@@ -17,41 +16,39 @@ with DAG(
         'email_on_failure': False,
         'email_on_retry': False,
         'retries': 2,
-        'retry_delay': timedelta(minutes=5), 
+        'retry_delay': timedelta(minutes=10),
     },
-    description='CORONA ETL Project',
-    schedule=timedelta(days=1), 
+    description='Corona ETL Project',
+    schedule=timedelta(days=1),
     start_date=datetime(2022, 9, 20, 4, 30),
-    catchup=False, 
+    catchup=False,
     tags=['corona_etl'],
 ) as dag:
 
     # t1, t2 and t3 are examples of tasks created by instantiating operators
     t1 = BashOperator(
         task_id='extract_corona_api',
-        cwd='/home/big/study/corona_etl', #current working directory
-        bash_command='python3 main.py extarct corona_api',
+        cwd='/home/big/study/corona_etl',
+        bash_command='python3 main.py extract corona_api',
     )
 
     t2 = BashOperator(
         task_id='extract_corona_vaccine',
-        cwd='/home/big/study/corona_etl', #current working directory
-        bash_command='python3 main.py extarct corona_vaccine',
+        cwd='/home/big/study/corona_etl',
+        bash_command='python3 main.py extract corona_vaccine',
     )
 
     t3 = BashOperator(
         task_id='transform_execute',
-        cwd='/home/big/study/corona_etl', #current working directory
+        cwd='/home/big/study/corona_etl',
         bash_command='python3 main.py transform execute',
     )
-    
+
     t4 = BashOperator(
         task_id='datamart_execute',
-        cwd='/home/big/study/corona_etl', #current working directory
+        cwd='/home/big/study/corona_etl',
         bash_command='python3 main.py datamart execute',
     )
-
-
 
     t1.doc_md = dedent(
         """\
@@ -77,4 +74,4 @@ with DAG(
     """
     )
 
-    [t1,t2] >> t3 >> t4
+    [t1, t2] >> t3 >> t4

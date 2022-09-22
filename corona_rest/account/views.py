@@ -27,3 +27,8 @@ def signup(request):
 def get_apikey(request):
     token = Token.objects.get_or_create(user=request.user)
     return render(request, 'account/apikey.html', {'apikey': token[0]})
+
+
+
+def index(request):
+    return redirect('index.html')

@@ -26,6 +26,8 @@ class GlobalMarketCapExtractor:
             rows.append(tr.findAll('td')[0].text.strip()[:-9])
             if tr.findAll('td')[0].text.strip()[:-9] == 'United States':
                 rows.append('미국')
+            elif 'Peru' in tr.findAll('td')[0].text.strip()[:-9]:
+                continue 
             elif tr.findAll('td')[0].text.strip()[:-9] == 'South Korea':
                 rows.append('한국')
             elif tr.findAll('td')[0].text.strip()[:-9] == 'Japan':
@@ -120,7 +122,7 @@ class SovereignYieldExtractor:
         # 채권 크롤링
         # 모을 연도 = [1,2,3,5,10,30]
         # 모을 국가 한국, 미국, 영국, 일본의 table bond_table_number = [60, 1, 3, 20]
-        cols = ['country_name', '1y','2y','3y','5y','10y','30y']
+        cols = ['country_name', '1','2','3','5','10','30']
         data = []
         for num in range(4):
             tmp = dict(zip(cols,cls.__get_bond_yield_row(int(num))))
@@ -129,7 +131,7 @@ class SovereignYieldExtractor:
             'meta':{
                 'desc':'한국,미국,영국,일본 국채 금리',
                 'cols':{
-                    'country_name':'국가명','1y':'1년물','2y':'2년물','3y':'3년물','5y':'5년물','10y':'10년물','30y':'30년물'
+                    'country_name':'국가명','1':'1년물','2':'2년물','3':'3년물','5':'5년물','10':'10년물','30':'30년물'
                 },
                 'std_day':cal_std_day(0)
             },

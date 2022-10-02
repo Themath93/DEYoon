@@ -1,5 +1,5 @@
 from string import Template
-from infra.jdbc import DataWarehouse, save_data
+from infra.jdbc import DataWarehouse, overwrite_data, save_data
 from infra.spark_session import get_spark_session
 from infra.util import cal_std_day
 from pyspark.sql.functions import col, when
@@ -27,7 +27,7 @@ class MarketCapTransformer:
                 market_cap_data.country_name_en.alias('COUNTRY_NAME_EN'),
                 market_cap_data.std_day.alias('STD_DAY')
         ).sort('MARKET_CAP', ascending=False)
-        save_data(DataWarehouse, market_cap, 'COUNTRY')
+        overwrite_data(DataWarehouse, market_cap, 'COUNTRY')
 
 class StockIndexTransformer:
 
@@ -80,27 +80,27 @@ class CentralInterestTransformer:
     @classmethod
     def transform(cls):
         data = []
-        path = '/finance/spot_market/cental_interest_' +cal_std_day(0) +'.json'
-        cental_interest_json = get_spark_session().read.json(path,encoding='UTF-8')
-        for r1 in cental_interest_json.select(cental_interest_json.data, cental_interest_json.meta.std_day).toLocalIterator():
+        path = '/finance/spot_market/central_interest_' +cal_std_day(0) +'.json'
+        central_interest_json = get_spark_session().read.json(path,encoding='UTF-8')
+        for r1 in central_interest_json.select(central_interest_json.data, central_interest_json.meta.std_day).toLocalIterator():
             for r2 in r1.data:
                 temp = r2.asDict()
                 temp['std_day'] = r1['meta.std_day'] 
                 data.append(Row(**temp))
         
-        cental_interest_data = get_spark_session().createDataFrame(data)
-        cental_interest = cental_interest_data.select(
-                cental_interest_data.std_day.alias('STD_DAY'),
-                cental_interest_data.ctr_bank.alias('CTR_BANK'),
-                cental_interest_data.ctr_inter.alias('CTR_INTER').cast('float'),
-                cental_interest_data.ctr_is_rise.alias('CTR_IS_RISE').cast('int'),
-                cental_interest_data.ctr_latest_point.alias('CTR_LATEST_POINT').cast('int'),
-                cental_interest_data.ctr_cng_date.alias('CTR_CNG_DATE'),
-                cental_interest_data.ctr_next_conf.alias('CTR_NEXT_CONF'),
-                cental_interest_data.country_name.alias('COUNTRY_NAME'),
+        central_interest_data = get_spark_session().createDataFrame(data)
+        central_interest = central_interest_data.select(
+                central_interest_data.std_day.alias('STD_DAY'),
+                central_interest_data.ctr_bank.alias('CTR_BANK'),
+                central_interest_data.ctr_inter.alias('CTR_INTER').cast('float'),
+                central_interest_data.ctr_is_rise.alias('CTR_IS_RISE').cast('int'),
+                central_interest_data.ctr_latest_point.alias('CTR_LATEST_POINT').cast('int'),
+                central_interest_data.ctr_cng_date.alias('CTR_CNG_DATE'),
+                central_interest_data.ctr_next_conf.alias('CTR_NEXT_CONF'),
+                central_interest_data.country_name.alias('COUNTRY_NAME'),
 
         )
-        save_data(DataWarehouse, cental_interest, 'CENTRAL_INTEREST')
+        save_data(DataWarehouse, central_interest, 'CENTRAL_INTEREST')
 
 
 class SovereignYieldTransformer:

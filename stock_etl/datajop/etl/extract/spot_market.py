@@ -171,7 +171,7 @@ class SovereignYieldExtractor:
 class BankInterestExtractor:
     ## 중앙은행의 이자율
     FILE_DIR = '/finance/spot_market/'
-    FILE_NAME = 'cental_interest_' + str(cal_std_day(0))+'.json'
+    FILE_NAME = 'central_interest_' + str(cal_std_day(0))+'.json'
     URL = 'https://kr.investing.com/central-banks/'
     
     

@@ -1,0 +1,6 @@
+GRANT
+    SELECT, INSERT, UPDATE, DELETE
+ON
+	dwrole.STOCK_INDEX
+TO
+    dw_pr_test

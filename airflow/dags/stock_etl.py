@@ -16,11 +16,11 @@ with DAG(
         'email_on_failure': False,
         'email_on_retry': False,
         'retries': 2,
-        'retry_delay': timedelta(minutes=10),
+        'retry_delay': timedelta(minutes=20),
     },
     description='Stock ETL Project',
     schedule=timedelta(days=1),
-    start_date=datetime(2022, 10, 2, 23, 46),
+    start_date=datetime(2022, 10, 5, 22, 00),
     catchup=False,
     tags=['stock_etl'],
 ) as dag:
